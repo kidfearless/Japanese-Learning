@@ -7,6 +7,36 @@ declare global
 }
 
 
+export interface Hiragana
+{
+	/**
+	 * the Japanese hyrogliphics
+	 *
+	 * @type {string}
+	 * @memberof Hiragana
+	 */
+	kana: string,
+	/**
+	 * The english translation of the kana
+	 *
+	 * @type {string}
+	 * @memberof Hiragana
+	 */
+	roumaji: string,
+	type: HiraganaType;
+}
+
+export enum HiraganaType
+{
+	dakuon,
+	extended,
+	gojuuon,
+	handakuon,
+	sokuon,
+	youon,
+}
+
+
 export default function ()
 {
 	HTMLElement.prototype.getChildById = function getChildById<T = HTMLElement>(id: string): T | null

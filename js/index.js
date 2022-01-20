@@ -1,9 +1,11 @@
-let interfaces = await import("./interfaces.js");
-interfaces.default();
+let serviceWorkerInstance = await navigator.serviceWorker.register("serviceworker.js");
+import interfaces from "./interfaces.js";
+interfaces();
 class ApplicationManager {
     root;
     templateContext;
     hasHiragana;
+    hiragana = [];
     constructor() {
         this.hasHiragana = false;
         this.templateContext = document.body;
@@ -18,10 +20,16 @@ class ApplicationManager {
         this.clearChildren();
         this.root.appendChild(getTemplate(template, this.root));
     }
+    async importData() {
+        let response = await fetch("/data/hiragana.json");
+        let data = await response.json();
+        this.hiragana = data;
+    }
 }
 const Application = new ApplicationManager();
 globalThis.Application = Application;
-Application.setTemplate('start-template');
+await Application.importData();
+Application.setTemplate('game-template');
 export function getTemplate(id, ctx = document.body) {
     Application.templateContext = ctx;
     let template = document.getElementById(id);

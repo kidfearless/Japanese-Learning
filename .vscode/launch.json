@@ -6,10 +6,16 @@
 	"configurations": [
 		{
 			"type": "pwa-msedge",
-			"name": "Launch",
+			"name": "attach",
+			"request": "attach",
+			"processId": 368,
+			"port": 9222,
+		},
+		{
+			"name": "Launch Microsoft Edge and open the Edge DevTools",
 			"request": "launch",
-			"includeDefaultArgs": true,
-			"url": "http://127.0.0.1:5500/"
+			"type": "vscode-edge-devtools.debug",
+			"url": "http://127.0.0.1:5500/" // Provide your project's url to finish configuring
 		}
 	]
 }

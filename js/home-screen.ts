@@ -4,6 +4,6 @@ export default function (context: HTMLElement)
 {
 	context.getChildById("start-button")!.onclick = function ()
 	{
-		Application.setTemplate('start-template');
+		Application.setTemplate('select-type-template');
 	}
 }

@@ -1,8 +1,9 @@
 import Application from './index.js';
 
+
 export default function (context: HTMLElement)
 {
-
+	
 	context.getChildById<HTMLButtonElement>("select-type-button")!.onclick = () =>
 	{
 		let hiragana = context.getChildById<HTMLInputElement>("hiragana")!.checked;

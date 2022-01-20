@@ -1,11 +1,17 @@
-let interfaces = await import("./interfaces.js");
-interfaces.default();
+let serviceWorkerInstance = await navigator.serviceWorker.register("serviceworker.js");
+
+
+import interfaces from "./interfaces.js";
+import { Hiragana, HiraganaType } from './interfaces.js';
+interfaces();
+
 
 class ApplicationManager
 {
 	root: HTMLElement;
 	templateContext: HTMLElement;
 	hasHiragana: boolean;
+	hiragana:Hiragana[] = [];
 	constructor()
 	{
 		this.hasHiragana = false;
@@ -27,14 +33,20 @@ class ApplicationManager
 		this.root.appendChild(getTemplate(template, this.root));
 	}
 
+	public async importData()
+	{
+		let response = await fetch("/data/hiragana.json");
+		let data: Hiragana[] = await response.json();
+		this.hiragana = data;
+	}
 }
 
 const Application = new ApplicationManager();
 // @ts-ignore
 globalThis.Application = Application;
+await Application.importData();
 
-Application.setTemplate('start-template');
-
+Application.setTemplate('game-template');
 
 
 

@@ -1,0 +1,23 @@
+{
+	"name": "Learn Japanese",
+	"short_name": "Learn Jap",
+	"description": "Learn japanese during your free time!",
+	"start_url": "./",
+	"display": "standalone",
+	"background_color": "#222",
+	"theme_color": "#03173d",
+	"orientation": "portrait",
+	"prefer_related_applications": false,
+	"icons": [
+		{
+			"src": "/img/icon-512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "/img/icon-128.png",
+			"type": "image/png",
+			"sizes": "128x128"
+		}
+	]
+}

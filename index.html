@@ -5,8 +5,9 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Document</title>
+		<title>Learn Japanese</title>
 		<link href="/css/index.css" rel="stylesheet" />
+		<link href="/manifest.json" rel="manifest" />
 
 	</head>
 
@@ -17,6 +18,7 @@
 		<template id="start-template">
 
 			<h1>Learn Japanese</h1>
+
 			<button data-id="start-button">Start Game</button>
 			<script data-src="/js/home-screen.js" src="/js/template.js"></script>
 		</template>
@@ -33,11 +35,19 @@
 		</template>
 
 		<template id="game-template">
+			<h1 data-id="quiz-question"></h1>
 
-			<h1>Play!</h1>
-			<h2></h2>
+			<div class="twoxtwo">
+				<button data-id="answer-button-0"></button>
+				<button data-id="answer-button-1"></button>
+				<button data-id="answer-button-2"></button>
+				<button data-id="answer-button-3"></button>
+			</div>
+				
+			<script data-src="/js/game.js" src="/js/template.js"></script>
+			<style>
 
-			<script data-src="/js/select-type.js" src="/js/template.js"></script>
+			</style>
 		</template>
 
 
