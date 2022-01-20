@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"sourceMap": true,
+		"module": "esnext",
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"target": "ESNext",
+		"strictPropertyInitialization": true,
+		"strictNullChecks": true,
+		"strictBindCallApply": true,
+		"removeComments": true,
+		"pretty": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
+		"lib": [
+			"dom",
+			"es6",
+			"WebWorker",
+			"ESNext",
+			"ES2021",
+		],
+		"skipLibCheck": true,
+		"alwaysStrict": true,
+	},
+	"compileOnSave": true
+}

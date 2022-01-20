@@ -1,0 +1,24 @@
+
+
+html, body {
+	background-color: #222;
+	color: white;
+}
+
+#app {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+// a nice video game style button
+button {
+	border: none;
+	background-color: #444;
+	color: white;
+	padding: 15px;
+	border-radius: 5px;
+}

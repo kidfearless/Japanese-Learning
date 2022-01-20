@@ -1,0 +1,1 @@
+{"version":3,"file":"home-screen.js","sourceRoot":"","sources":["home-screen.ts"],"names":[],"mappings":"AAAA,OAAO,WAAW,MAAM,YAAY,CAAC;AAErC,MAAM,CAAC,OAAO,WAAW,OAAoB;IAE5C,OAAO,CAAC,YAAY,CAAC,cAAc,CAAE,CAAC,OAAO,GAAG;QAE/C,WAAW,CAAC,WAAW,CAAC,gBAAgB,CAAC,CAAC;IAC3C,CAAC,CAAA;AACF,CAAC"}

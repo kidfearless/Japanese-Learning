@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<link href="/css/index.css" rel="stylesheet" />
+
+	</head>
+
+	<body>
+		<div id="app">
+		</div>
+		
+		<template id="start-template">
+
+			<h1>Learn Japanese</h1>
+			<button data-id="start-button">Start Game</button>
+			<script data-src="/js/home-screen.js" src="/js/template.js"></script>
+		</template>
+
+		<template id="select-type-template">
+
+			<h1>Select Character Set</h1>
+			<input type="checkbox" data-id="hiragana">Hiragana</input>
+			<!-- <input type="checkbox" data-id="katakana">Katakana</input>
+			<input type="checkbox" data-id="kanji">Kanji</input> -->
+			<button data-id="select-type-button">Start Game</button>
+
+			<script data-src="/js/select-type.js" src="/js/template.js"></script>
+		</template>
+
+		<template id="game-template">
+
+			<h1>Play!</h1>
+			<h2></h2>
+
+			<script data-src="/js/select-type.js" src="/js/template.js"></script>
+		</template>
+
+
+		<script defer type="module" src="/js/index.js"></script>
+	</body>
+
+</html>
