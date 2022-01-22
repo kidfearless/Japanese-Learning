@@ -6,11 +6,22 @@ serviceworker.addEventListener('install', (event: ExtendableEvent) => event.wait
 serviceworker.addEventListener('activate', (event: ExtendableEvent) => event.waitUntil(onActivate(event)));
 serviceworker.addEventListener("fetch", (event: FetchEvent) => (event.respondWith(onFetch(event))));
 
-const CACHE_NAME = 'jap-cache-v2';
+const CACHE_NAME = 'jap-cache-v4';
 
 let cacheSet = new Set<string>();
+
 cacheSet.add(`${origin}/data/hiragana.json`);
 
+cacheSet.add(`${origin}/css/index.css`);
+cacheSet.add(`${origin}/js/index.js`);
+cacheSet.add(`${origin}/js/interfaces.js`);
+cacheSet.add(`${origin}/manifest.json`);
+cacheSet.add(`${origin}/js/template.js`);
+cacheSet.add(`${origin}/img/icon-512.png`);
+cacheSet.add(`${origin}/img/icon-128.png`);
+cacheSet.add(`${origin}/js/game.js`);
+cacheSet.add(`${origin}/`);
+cacheSet.add(`${origin}/index.html`);
 async function onInstall(event: ExtendableEvent)
 {
 	console.info('Service worker: Skip');

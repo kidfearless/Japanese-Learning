@@ -2,19 +2,40 @@ let serviceWorkerInstance = await navigator.serviceWorker.register("serviceworke
 
 
 import interfaces from "./interfaces.js";
-import { Hiragana, HiraganaType } from './interfaces.js';
+import { Hiragana } from './interfaces.js';
 interfaces();
 
+export enum GameDifficulty
+{
+	/**
+	 * Gives two options to pick from while playing.
+	 */
+	Easy = 2,
+	/**
+	 * Gives four options to pick from while playing.
+	 */
+	Medium = 4,
+	/**
+	 * Gives eight options to pick from while playing.
+	 */
+	Hard = 8,
+	/**
+	 * [NOT IMPLEMENTED YET]
+	 * Forces user too fill in the blank.
+	 */
+	VeryHard = -1
+}
 
 class ApplicationManager
 {
 	root: HTMLElement;
 	templateContext: HTMLElement;
-	hasHiragana: boolean;
-	hiragana:Hiragana[] = [];
+	difficulty: GameDifficulty = GameDifficulty.Medium;
+	currentLevel: number = 0;
+	maxLevel: number = 10;
+	hiragana: Hiragana[][] = [];
 	constructor()
 	{
-		this.hasHiragana = false;
 		this.templateContext = document.body;
 		this.root = document.getElementById('app')!;
 	}
@@ -36,7 +57,7 @@ class ApplicationManager
 	public async importData()
 	{
 		let response = await fetch("/data/hiragana.json");
-		let data: Hiragana[] = await response.json();
+		let data: Hiragana[][] = await response.json();
 		this.hiragana = data;
 	}
 }

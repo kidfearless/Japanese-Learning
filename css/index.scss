@@ -20,22 +20,30 @@ html, body {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
+	text-align: center;
 }
 
 h1 {
 	font-size: 4em;
+	margin: 0;
 }
 
 // a nice video game style button
 button {
 	border: none;
-	background-color: #444;
+	background-color: hsl(195, 83%, 38%);
 	color: white;
 	padding: 15px;
-	border-radius: 5px;
-	width: 100%;
+	border-radius: 18px;
+	width: 75%;
+	margin: 16px;
+	font-size: 2em;
+
+	&:disabled {
+		background-color: hsl(347, 80%, 38%);
+	}
 }
 
 .twoxtwo {

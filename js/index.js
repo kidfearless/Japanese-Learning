@@ -1,13 +1,21 @@
 let serviceWorkerInstance = await navigator.serviceWorker.register("serviceworker.js");
 import interfaces from "./interfaces.js";
 interfaces();
+export var GameDifficulty;
+(function (GameDifficulty) {
+    GameDifficulty[GameDifficulty["Easy"] = 2] = "Easy";
+    GameDifficulty[GameDifficulty["Medium"] = 4] = "Medium";
+    GameDifficulty[GameDifficulty["Hard"] = 8] = "Hard";
+    GameDifficulty[GameDifficulty["VeryHard"] = -1] = "VeryHard";
+})(GameDifficulty || (GameDifficulty = {}));
 class ApplicationManager {
     root;
     templateContext;
-    hasHiragana;
+    difficulty = GameDifficulty.Medium;
+    currentLevel = 0;
+    maxLevel = 10;
     hiragana = [];
     constructor() {
-        this.hasHiragana = false;
         this.templateContext = document.body;
         this.root = document.getElementById('app');
     }

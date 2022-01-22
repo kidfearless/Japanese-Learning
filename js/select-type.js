@@ -1,11 +1,13 @@
-import Application from './index.js';
+import Application, { GameDifficulty } from './index.js';
 export default function (context) {
-    context.getChildById("select-type-button").onclick = () => {
-        let hiragana = context.getChildById("hiragana").checked;
-        let katakana = context.getChildById("katakana")?.checked || false;
-        let kanji = context.getChildById("kanji")?.checked || false;
-        Application.hasHiragana = hiragana;
-        Application.setTemplate('game-template');
-    };
+    let buttons = context.querySelectorAll('button');
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].onclick = function (event) {
+            let button = event.target;
+            let difficulty = button.dataset["difficulty"];
+            Application.difficulty = GameDifficulty[difficulty];
+            Application.setTemplate('game-template');
+        };
+    }
 }
 //# sourceMappingURL=select-type.js.map

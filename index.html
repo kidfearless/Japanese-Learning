@@ -14,7 +14,7 @@
 	<body>
 		<div id="app">
 		</div>
-		
+
 		<template id="start-template">
 
 			<h1>Learn Japanese</h1>
@@ -24,12 +24,22 @@
 		</template>
 
 		<template id="select-type-template">
+			<style>
+				button {
+					width: 100%;
+					width: 90%;
+					height: 10%;
+				}
+			</style>
 
-			<h1>Select Character Set</h1>
-			<input type="checkbox" data-id="hiragana">Hiragana</input>
+			<h1>Select Difficulty</h1>
+			<!-- Difficulty selection -->
+			<button data-difficulty="Easy">Easy</button>
+			<button data-difficulty="Medium">Medium</button>
+			<button data-difficulty="Hard">Hard</button>
+			<button data-difficulty="Easy">Very Hard</button>
 			<!-- <input type="checkbox" data-id="katakana">Katakana</input>
 			<input type="checkbox" data-id="kanji">Kanji</input> -->
-			<button data-id="select-type-button">Start Game</button>
 
 			<script data-src="/js/select-type.js" src="/js/template.js"></script>
 		</template>
@@ -37,13 +47,6 @@
 		<template id="game-template">
 			<h1 data-id="quiz-question"></h1>
 
-			<div class="twoxtwo">
-				<button data-id="answer-button-0"></button>
-				<button data-id="answer-button-1"></button>
-				<button data-id="answer-button-2"></button>
-				<button data-id="answer-button-3"></button>
-			</div>
-				
 			<script data-src="/js/game.js" src="/js/template.js"></script>
 			<style>
 

@@ -23,19 +23,7 @@ export interface Hiragana
 	 * @memberof Hiragana
 	 */
 	roumaji: string,
-	type: HiraganaType;
 }
-
-export enum HiraganaType
-{
-	dakuon,
-	extended,
-	gojuuon,
-	handakuon,
-	sokuon,
-	youon,
-}
-
 
 export default function ()
 {

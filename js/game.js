@@ -3,55 +3,78 @@ class GameManager {
     root;
     buttons;
     title;
+    currentIndex = 0;
     constructor(context) {
         this.root = context;
         this.buttons = [];
-        for (let i = 0; i < 4; i++) {
-            this.buttons.push(this.root.getChildById(`answer-button-${i}`));
+        for (let i = 0; i < Application.difficulty; i++) {
+            let button = document.createElement('button');
+            button.dataset["id"] = `answer-button-${i}`;
+            this.root.appendChild(button);
+            this.buttons.push(button);
         }
-        console.assert(this.buttons.length === 4, "There should be 4 buttons");
         this.title = this.root.getChildById("quiz-question");
     }
     fillBoard() {
         for (let button of this.buttons) {
-            button.style.backgroundColor = "#444";
             button.disabled = false;
+            button.dataset["correct"] = "0";
         }
-        let hiragana = randomValue(Application.hiragana);
-        let useEnglish = Math.random() > 0.5;
-        if (useEnglish) {
-            this.title.innerText = hiragana.roumaji;
-            for (let i = 0; i < 4; i++) {
-                let randomCharacter = randomValue(Application.hiragana);
-                this.buttons[i].innerText = randomCharacter.kana;
-                this.buttons[i].onclick = () => {
-                    this.buttons[i].style.backgroundColor = "red";
-                    this.buttons[i].disabled = true;
-                };
-            }
-            let correctAnswerIndex = randomInt(0, 3);
-            this.buttons[correctAnswerIndex].innerText = hiragana.kana;
-            this.buttons[correctAnswerIndex].onclick = () => {
-                this.fillBoard();
-            };
+        if (this.currentIndex++ >= Application.hiragana[Application.currentLevel].length) {
+            this.currentIndex = 0;
+            Application.currentLevel++;
         }
-        else {
-            this.title.innerText = hiragana.kana;
-            for (let i = 0; i < 4; i++) {
-                let randomCharacter = randomValue(Application.hiragana);
-                this.buttons[i].innerText = randomCharacter.roumaji;
-                this.buttons[i].onclick = () => {
-                    this.buttons[i].style.backgroundColor = "red";
-                    this.buttons[i].disabled = true;
-                };
+        let hiragana = Application.hiragana[Application.currentLevel];
+        let answer = randomValue(hiragana);
+        let fakes = this.getFakes(answer);
+        if (fakes.length != Application.difficulty - 1) {
+            debugger;
+        }
+        let guesses = [answer, ...fakes];
+        guesses.sort(() => Math.random() - 0.5);
+        let useEnglishTitle = randomInt(0, 1) == 1;
+        let title = useEnglishTitle ? answer.roumaji : answer.kana;
+        this.title.innerText = title;
+        this.fillButtons(guesses, useEnglishTitle, answer);
+    }
+    fillButtons(guesses, useEnglishTitle, answer) {
+        for (let i = 0; i < guesses.length; i++) {
+            let button = this.buttons[i];
+            let guess = guesses[i];
+            let text = useEnglishTitle ? guess.kana : guess.roumaji;
+            button.innerText = text;
+            if (guess == answer) {
+                button.dataset["correct"] = "1";
             }
-            let correctAnswerIndex = randomInt(0, 3);
-            this.buttons[correctAnswerIndex].innerText = hiragana.roumaji;
-            this.buttons[correctAnswerIndex].onclick = () => {
-                this.fillBoard();
+            button.onclick = (event) => {
+                if (button.dataset["correct"] == '1') {
+                    this.fillBoard();
+                }
+                else {
+                    button.disabled = true;
+                }
             };
         }
     }
+    getFakes(answer) {
+        let arr = [];
+        for (let i = 0; i <= Application.maxLevel; i++) {
+            let level = [...Application.hiragana[i]];
+            while (level.length > 0) {
+                let value = randomValue(level);
+                if (value !== answer) {
+                    arr.push(value);
+                }
+                level.splice(level.indexOf(value), 1);
+                if (arr.length === Application.difficulty - 1) {
+                    return arr;
+                }
+            }
+        }
+        return arr;
+    }
+}
+function setState(...args) {
 }
 function randomValue(arr) {
     return arr[Math.floor(Math.random() * arr.length)];

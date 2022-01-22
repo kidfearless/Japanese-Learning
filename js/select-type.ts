@@ -1,16 +1,17 @@
-import Application from './index.js';
+import Application, { GameDifficulty } from './index.js';
 
 
 export default function (context: HTMLElement)
 {
-	
-	context.getChildById<HTMLButtonElement>("select-type-button")!.onclick = () =>
+	let buttons = context.querySelectorAll('button');
+	for(let i = 0; i < buttons.length; i++)
 	{
-		let hiragana = context.getChildById<HTMLInputElement>("hiragana")!.checked;
-		let katakana = context.getChildById<HTMLInputElement>("katakana")?.checked || false;
-		let kanji = context.getChildById<HTMLInputElement>("kanji")?.checked || false;
-		
-		Application.hasHiragana = hiragana;
-		Application.setTemplate('game-template');
+		buttons[i].onclick = function (event:PointerEvent | MouseEvent)
+		{
+			let button = event.target as HTMLButtonElement;
+			let difficulty = button.dataset["difficulty"] as keyof typeof GameDifficulty;
+			Application.difficulty = GameDifficulty[difficulty];
+			Application.setTemplate('game-template');
+		}
 	}
 }
