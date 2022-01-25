@@ -30,11 +30,7 @@ class GameManager
 		// fill the buttons and title with values from Application.hiragana
 		// use the Application.difficulty to determine which indexes to use
 
-		for(let button of this.buttons)
-		{
-			button.disabled = false;
-			button.dataset["correct"] = "0";
-		}
+		this.resetButtons();
 
 		// grab at least the number of items in the level
 		if(this.currentIndex++ >= Application.hiragana[Application.currentLevel].length)
@@ -59,6 +55,15 @@ class GameManager
 		this.title.innerText = title;
 
 		this.fillButtons(guesses, useEnglishTitle, answer);
+	}
+
+	private resetButtons()
+	{
+		for (let button of this.buttons)
+		{
+			button.disabled = false;
+			button.dataset["correct"] = "0";
+		}
 	}
 
 	private fillButtons(guesses: Hiragana[], useEnglishTitle: boolean, answer: Hiragana)
@@ -93,24 +98,23 @@ class GameManager
 	getFakes(answer: Hiragana)
 	{
 		let arr:Hiragana[] = [];
-		
-		for(let i = 0; i <= Application.maxLevel; i++)
+
+		// flatten the levels from the start of the array to the current level
+		let answerPack = Application.hiragana.slice(0).flat();
+
+		while(arr.length < Application.difficulty - 1)
 		{
-			// copy the level to modify
-			let level = [...Application.hiragana[i]];
-			while(level.length > 0)
+			if(answerPack.length == 0)
 			{
-				let value = randomValue(level);
-				if(value !== answer)
-				{
-					arr.push(value);
-				}
-				level.splice(level.indexOf(value), 1);
-				if(arr.length === Application.difficulty - 1)
-				{
-					return arr;
-				}
+				answerPack = [...Application.hiragana[Application.currentLevel]];
 			}
+			let answer = randomValue(answerPack);
+			if(!arr.includes(answer))
+			{
+				arr.push(answer);
+			}
+
+			answerPack = answerPack.filter(x => x != answer);
 		}
 
 		return arr;

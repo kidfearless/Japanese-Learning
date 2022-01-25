@@ -12,7 +12,7 @@ class ApplicationManager {
     root;
     templateContext;
     difficulty = GameDifficulty.Medium;
-    currentLevel = 0;
+    currentLevel = 1;
     maxLevel = 10;
     hiragana = [];
     constructor() {

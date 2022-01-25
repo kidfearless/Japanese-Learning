@@ -31,7 +31,7 @@ class ApplicationManager
 	root: HTMLElement;
 	templateContext: HTMLElement;
 	difficulty: GameDifficulty = GameDifficulty.Medium;
-	currentLevel: number = 0;
+	currentLevel: number = 1;
 	maxLevel: number = 10;
 	hiragana: Hiragana[][] = [];
 	constructor()

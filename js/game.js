@@ -16,10 +16,7 @@ class GameManager {
         this.title = this.root.getChildById("quiz-question");
     }
     fillBoard() {
-        for (let button of this.buttons) {
-            button.disabled = false;
-            button.dataset["correct"] = "0";
-        }
+        this.resetButtons();
         if (this.currentIndex++ >= Application.hiragana[Application.currentLevel].length) {
             this.currentIndex = 0;
             Application.currentLevel++;
@@ -36,6 +33,12 @@ class GameManager {
         let title = useEnglishTitle ? answer.roumaji : answer.kana;
         this.title.innerText = title;
         this.fillButtons(guesses, useEnglishTitle, answer);
+    }
+    resetButtons() {
+        for (let button of this.buttons) {
+            button.disabled = false;
+            button.dataset["correct"] = "0";
+        }
     }
     fillButtons(guesses, useEnglishTitle, answer) {
         for (let i = 0; i < guesses.length; i++) {
@@ -58,18 +61,16 @@ class GameManager {
     }
     getFakes(answer) {
         let arr = [];
-        for (let i = 0; i <= Application.maxLevel; i++) {
-            let level = [...Application.hiragana[i]];
-            while (level.length > 0) {
-                let value = randomValue(level);
-                if (value !== answer) {
-                    arr.push(value);
-                }
-                level.splice(level.indexOf(value), 1);
-                if (arr.length === Application.difficulty - 1) {
-                    return arr;
-                }
+        let answerPack = Application.hiragana.slice(0).flat();
+        while (arr.length < Application.difficulty - 1) {
+            if (answerPack.length == 0) {
+                answerPack = [...Application.hiragana[Application.currentLevel]];
             }
+            let answer = randomValue(answerPack);
+            if (!arr.includes(answer)) {
+                arr.push(answer);
+            }
+            answerPack = answerPack.filter(x => x != answer);
         }
         return arr;
     }
