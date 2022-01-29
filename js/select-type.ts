@@ -1,4 +1,5 @@
-import Application, { GameDifficulty } from './index.js';
+import Application from './index.js';
+import { GameDifficulty, Views } from "./interfaces.js";
 
 
 export default function (context: HTMLElement)
@@ -11,7 +12,7 @@ export default function (context: HTMLElement)
 			let button = event.target as HTMLButtonElement;
 			let difficulty = button.dataset["difficulty"] as keyof typeof GameDifficulty;
 			Application.difficulty = GameDifficulty[difficulty];
-			Application.setTemplate('game-template');
+			Application.setTemplate(Views.Game);
 		}
 	}
 }

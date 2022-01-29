@@ -1,31 +1,30 @@
 let serviceWorkerInstance = await navigator.serviceWorker.register("serviceworker.js");
-import interfaces from "./interfaces.js";
+import interfaces, { Views, GameDifficulty } from "./interfaces.js";
 interfaces();
-export var GameDifficulty;
-(function (GameDifficulty) {
-    GameDifficulty[GameDifficulty["Easy"] = 2] = "Easy";
-    GameDifficulty[GameDifficulty["Medium"] = 4] = "Medium";
-    GameDifficulty[GameDifficulty["Hard"] = 8] = "Hard";
-    GameDifficulty[GameDifficulty["VeryHard"] = -1] = "VeryHard";
-})(GameDifficulty || (GameDifficulty = {}));
 class ApplicationManager {
     root;
     templateContext;
     difficulty = GameDifficulty.Medium;
-    currentLevel = 0;
+    currentLevel = 1;
     maxLevel = 10;
     hiragana = [];
     currentGame;
     constructor() {
         this.templateContext = document.body;
         this.root = document.getElementById('app');
+        window.onpopstate = (ev) => this.onPopState(ev);
+        globalThis.Application = this;
     }
     clearChildren() {
         while (this.root.lastChild) {
             this.root.lastChild.remove();
         }
     }
-    setTemplate(template) {
+    setTemplate(template, setstate = true) {
+        if (setstate) {
+            window.history.pushState(template, template);
+        }
+        console.info(template);
         this.clearChildren();
         this.root.appendChild(getTemplate(template, this.root));
     }
@@ -34,12 +33,15 @@ class ApplicationManager {
         let data = await response.json();
         this.hiragana = data;
     }
+    onPopState(ev) {
+        console.info(ev.state);
+        this.setTemplate(ev.state, false);
+        return true;
+    }
 }
 const Application = new ApplicationManager();
-globalThis.Application = Application;
-await Application.importData();
-Application.difficulty = GameDifficulty.VeryHard;
-Application.setTemplate('game-template');
+Application.importData();
+Application.setTemplate(Views.Start);
 export function getTemplate(id, ctx = document.body) {
     Application.templateContext = ctx;
     let template = document.getElementById(id);

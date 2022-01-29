@@ -1,5 +1,5 @@
-import Application, { GameDifficulty } from './index.js';
-import { Hiragana } from './interfaces.js';
+import Application from './index.js';
+import { Hiragana, GameDifficulty } from './interfaces.js';
 
 export interface IGameManager
 {
@@ -33,7 +33,7 @@ class GameManager implements IGameManager
 
 		this.textBox = document.createElement('input');
 		this.textBox.type = 'text';
-		this.textBox.placeholder = 'Enable Japanese Input In Your Keyboard Settings';
+		this.textBox.placeholder = 'Enable Japanese Keyboard In Settings';
 		this.textBox.style.visibility = 'hidden';
 
 		this.root.appendChild(this.textBox);

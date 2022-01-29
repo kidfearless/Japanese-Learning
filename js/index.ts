@@ -2,37 +2,17 @@ let serviceWorkerInstance = await navigator.serviceWorker.register("serviceworke
 
 
 import { IGameManager } from "./game.js";
-import interfaces from "./interfaces.js";
+import interfaces, { Views, GameDifficulty } from "./interfaces.js";
 import { Hiragana } from './interfaces.js';
 interfaces();
 
-export enum GameDifficulty
-{
-	/**
-	 * Gives two options to pick from while playing.
-	 */
-	Easy = 2,
-	/**
-	 * Gives four options to pick from while playing.
-	 */
-	Medium = 4,
-	/**
-	 * Gives eight options to pick from while playing.
-	 */
-	Hard = 8,
-	/**
-	 * [NOT IMPLEMENTED YET]
-	 * Forces user too fill in the blank.
-	 */
-	VeryHard = -1
-}
-
 class ApplicationManager
 {
+	
 	root: HTMLElement;
 	templateContext: HTMLElement;
 	difficulty: GameDifficulty = GameDifficulty.Medium;
-	currentLevel: number = 0;
+	currentLevel: number = 1;
 	maxLevel: number = 10;
 	hiragana: Hiragana[][] = [];
 	currentGame?: IGameManager;
@@ -40,6 +20,10 @@ class ApplicationManager
 	{
 		this.templateContext = document.body;
 		this.root = document.getElementById('app')!;
+		window.onpopstate = (ev) => this.onPopState(ev);
+
+		// @ts-ignore - Allows for access to the Application from outside the module
+		globalThis.Application = this;
 	}
 
 	public clearChildren()
@@ -50,8 +34,14 @@ class ApplicationManager
 		}
 	}
 
-	public setTemplate(template: string)
+	// sets the template passing in one of the values from the Views enum
+	public setTemplate(template: Views, setstate: boolean = true)
 	{
+		if(setstate)
+		{
+			window.history.pushState(template, template);
+		}
+		console.info(template);
 		this.clearChildren();
 		this.root.appendChild(getTemplate(template, this.root));
 	}
@@ -62,17 +52,18 @@ class ApplicationManager
 		let data: Hiragana[][] = await response.json();
 		this.hiragana = data;
 	}
+
+	public onPopState(ev: PopStateEvent): any
+	{
+		console.info(ev.state);
+		this.setTemplate(ev.state as Views, false);
+		return true;
+	}
 }
 
 const Application = new ApplicationManager();
-// @ts-ignore
-globalThis.Application = Application;
-await Application.importData();
-Application.difficulty = GameDifficulty.VeryHard;
-// Application.difficulty = GameDifficulty.Medium;
-
-Application.setTemplate('game-template');
-
+Application.importData();
+Application.setTemplate(Views.Start);
 
 
 

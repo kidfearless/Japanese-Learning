@@ -6,6 +6,36 @@ declare global
 	}
 }
 
+export enum Views
+{
+	Start = 'start-template',
+	SelectType = 'select-type-template',
+	Game = 'game-template'
+}
+
+
+export enum GameDifficulty
+{
+	/**
+	 * Gives two options to pick from while playing.
+	 */
+	Easy = 2,
+	/**
+	 * Gives four options to pick from while playing.
+	 */
+	Medium = 4,
+	/**
+	 * Gives eight options to pick from while playing.
+	 */
+	Hard = 8,
+	/**
+	 * [NOT IMPLEMENTED YET]
+	 * Forces user too fill in the blank.
+	 */
+	VeryHard = -1
+}
+
+
 
 export interface Hiragana
 {

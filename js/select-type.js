@@ -1,4 +1,5 @@
-import Application, { GameDifficulty } from './index.js';
+import Application from './index.js';
+import { GameDifficulty, Views } from "./interfaces.js";
 export default function (context) {
     let buttons = context.querySelectorAll('button');
     for (let i = 0; i < buttons.length; i++) {
@@ -6,7 +7,7 @@ export default function (context) {
             let button = event.target;
             let difficulty = button.dataset["difficulty"];
             Application.difficulty = GameDifficulty[difficulty];
-            Application.setTemplate('game-template');
+            Application.setTemplate(Views.Game);
         };
     }
 }
