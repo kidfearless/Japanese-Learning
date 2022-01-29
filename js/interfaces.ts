@@ -55,11 +55,12 @@ export interface Hiragana
 	roumaji: string,
 }
 
-export default function ()
+export interface IGameManager
 {
-	HTMLElement.prototype.getChildById = function getChildById<T = HTMLElement>(id: string): T | null
-	{
-		return this.querySelector(`[data-id="${id}"]`) as T | null;
-	};
+	start(): void;
+}
 
-};
+HTMLElement.prototype.getChildById = function getChildById<T = HTMLElement>(id: string): T | null
+{
+	return this.querySelector(`[data-id="${id}"]`) as T | null;
+}

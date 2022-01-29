@@ -11,10 +11,7 @@ export var GameDifficulty;
     GameDifficulty[GameDifficulty["Hard"] = 8] = "Hard";
     GameDifficulty[GameDifficulty["VeryHard"] = -1] = "VeryHard";
 })(GameDifficulty || (GameDifficulty = {}));
-export default function () {
-    HTMLElement.prototype.getChildById = function getChildById(id) {
-        return this.querySelector(`[data-id="${id}"]`);
-    };
-}
-;
+HTMLElement.prototype.getChildById = function getChildById(id) {
+    return this.querySelector(`[data-id="${id}"]`);
+};
 //# sourceMappingURL=interfaces.js.map

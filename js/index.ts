@@ -1,10 +1,8 @@
 let serviceWorkerInstance = await navigator.serviceWorker.register("serviceworker.js");
 
 
-import { IGameManager } from "./game.js";
-import interfaces, { Views, GameDifficulty } from "./interfaces.js";
+import  { Views, GameDifficulty, IGameManager } from "./interfaces.js";
 import { Hiragana } from './interfaces.js';
-interfaces();
 
 class ApplicationManager
 {
@@ -85,12 +83,6 @@ export function setTemplate(element: HTMLElement, template: string)
 
 	element.appendChild(getTemplate(template, element));
 }
-
-
-
-
-
-
 
 
 export default Application;

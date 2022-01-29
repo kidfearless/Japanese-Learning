@@ -1,10 +1,6 @@
 import Application from './index.js';
-import { Hiragana, GameDifficulty } from './interfaces.js';
+import { Hiragana, GameDifficulty, IGameManager } from './interfaces.js';
 
-export interface IGameManager
-{
-	start(): void;
-}
 
 class GameManager implements IGameManager
 {
@@ -46,6 +42,7 @@ class GameManager implements IGameManager
 
 		this.title = this.root.getChildById("quiz-question")!;
 	}
+
 
 	public start()
 	{
@@ -211,7 +208,6 @@ function randomInt(min: number = 0, max: number = 1)
 
 export default function (context: HTMLElement)
 {
-
 	let game = new GameManager(context);
 	Application.currentGame = game;
 

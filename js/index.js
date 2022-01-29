@@ -1,6 +1,5 @@
 let serviceWorkerInstance = await navigator.serviceWorker.register("serviceworker.js");
-import interfaces, { Views, GameDifficulty } from "./interfaces.js";
-interfaces();
+import { Views, GameDifficulty } from "./interfaces.js";
 class ApplicationManager {
     root;
     templateContext;
