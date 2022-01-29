@@ -10,7 +10,8 @@ export enum Views
 {
 	Start = 'start-template',
 	SelectType = 'select-type-template',
-	Game = 'game-template'
+	Game = 'game-template',
+	GameVeryHard = 'game-veryhard-template'
 }
 
 

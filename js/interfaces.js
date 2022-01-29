@@ -3,6 +3,7 @@ export var Views;
     Views["Start"] = "start-template";
     Views["SelectType"] = "select-type-template";
     Views["Game"] = "game-template";
+    Views["GameVeryHard"] = "game-veryhard-template";
 })(Views || (Views = {}));
 export var GameDifficulty;
 (function (GameDifficulty) {

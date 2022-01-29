@@ -40,7 +40,7 @@ class ApplicationManager {
 }
 const Application = new ApplicationManager();
 Application.importData();
-Application.setTemplate(Views.Start);
+Application.setTemplate(Views.GameVeryHard);
 export function getTemplate(id, ctx = document.body) {
     Application.templateContext = ctx;
     let template = document.getElementById(id);

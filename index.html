@@ -57,8 +57,22 @@
 			</style>
 		</template>
 
+		<template id="game-veryhard-template">
+			<h1 data-id="quiz-question"></h1>
+
+			<span data-id="hint-box" class="hint">❔</span>
+
+			<canvas data-id="writing-box" width="400" height="400" style="border: 2px solid; cursor: crosshair;"></canvas>
+			
+
+				<button data-id="reset-button">Reset</button>
+
+			<script data-src="/js/game-veryhard.js" src="/js/template.js"></script>
+		</template>
+
 
 		<script defer type="module" src="/js/index.js"></script>
+		<script defer type="text/javascript" src="./handwriting.canvas.js"></script>
 	</body>
 
 </html>

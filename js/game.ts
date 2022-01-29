@@ -2,6 +2,9 @@ import Application from './index.js';
 import { Hiragana, GameDifficulty, IGameManager } from './interfaces.js';
 
 
+
+
+
 class GameManager implements IGameManager
 {
 	root: HTMLElement;
