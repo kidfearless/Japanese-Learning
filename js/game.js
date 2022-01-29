@@ -1,46 +1,87 @@
-import Application from './index.js';
+import Application, { GameDifficulty } from './index.js';
 class GameManager {
     root;
     buttons;
     title;
     currentIndex = 0;
+    levelProgress;
+    textBox;
+    hintBox;
     constructor(context) {
         this.root = context;
         this.buttons = [];
+        this.levelProgress = [];
         for (let i = 0; i < Application.difficulty; i++) {
             let button = document.createElement('button');
             button.dataset["id"] = `answer-button-${i}`;
             this.root.appendChild(button);
             this.buttons.push(button);
         }
+        this.textBox = document.createElement('input');
+        this.textBox.type = 'text';
+        this.textBox.placeholder = 'Enable Japanese Input In Your Keyboard Settings';
+        this.textBox.style.visibility = 'hidden';
+        this.root.appendChild(this.textBox);
+        this.hintBox = document.createElement('span');
+        this.hintBox.classList.add('hint');
+        this.hintBox.innerText = '❔';
+        this.root.appendChild(this.hintBox);
         this.title = this.root.getChildById("quiz-question");
     }
-    fillBoard() {
-        this.resetButtons();
+    start() {
+        this.reset();
+        if (this.levelProgress.length === 0) {
+            this.levelProgress = [...Application.hiragana[Application.currentLevel]];
+        }
         if (this.currentIndex++ >= Application.hiragana[Application.currentLevel].length) {
             this.currentIndex = 0;
             Application.currentLevel++;
+            this.levelProgress = [...Application.hiragana[Application.currentLevel]];
         }
-        let hiragana = Application.hiragana[Application.currentLevel];
-        let answer = randomValue(hiragana);
-        let fakes = this.getFakes(answer);
-        if (fakes.length != Application.difficulty - 1) {
-            debugger;
+        let answer = this.getQuestion();
+        if (Application.difficulty === GameDifficulty.VeryHard) {
+            this.hintBox.onclick = () => {
+                this.title.innerText = `${answer.roumaji}\n${answer.kana}`;
+            };
+            this.title.innerText = `${answer.roumaji}`;
+            this.fillWriting(answer);
         }
-        let guesses = [answer, ...fakes];
-        guesses.sort(() => Math.random() - 0.5);
-        let useEnglishTitle = randomInt(0, 1) == 1;
-        let title = useEnglishTitle ? answer.roumaji : answer.kana;
-        this.title.innerText = title;
-        this.fillButtons(guesses, useEnglishTitle, answer);
+        else {
+            let fakes = this.getFakes(answer);
+            let guesses = [answer, ...fakes];
+            guesses.sort(() => Math.random() - 0.5);
+            let useEnglishTitle = randomInt(0, 1) == 1;
+            let title = useEnglishTitle ? answer.roumaji : answer.kana;
+            this.title.innerText = title;
+            this.fill(guesses, useEnglishTitle, answer);
+        }
     }
-    resetButtons() {
+    reset() {
         for (let button of this.buttons) {
             button.disabled = false;
             button.dataset["correct"] = "0";
+            button.style.visibility = Application.difficulty == GameDifficulty.VeryHard ? "hidden" : "visible";
         }
+        this.textBox.style.visibility = Application.difficulty == GameDifficulty.VeryHard ? "visible" : "hidden";
+        if (this.textBox.value) {
+            this.textBox.placeholder = "";
+        }
+        this.textBox.value = "";
     }
-    fillButtons(guesses, useEnglishTitle, answer) {
+    fillWriting(answer) {
+        this.textBox.oninput = (event) => {
+            let input = event.target;
+            let correct = input.value === answer.kana;
+            if (correct) {
+                input.classList.add('correct');
+                this.start();
+            }
+            else {
+                input.classList.add('wrong');
+            }
+        };
+    }
+    fill(guesses, useEnglishTitle, answer) {
         for (let i = 0; i < guesses.length; i++) {
             let button = this.buttons[i];
             let guess = guesses[i];
@@ -51,7 +92,7 @@ class GameManager {
             }
             button.onclick = (event) => {
                 if (button.dataset["correct"] == '1') {
-                    this.fillBoard();
+                    this.start();
                 }
                 else {
                     button.disabled = true;
@@ -59,10 +100,16 @@ class GameManager {
             };
         }
     }
+    getQuestion() {
+        let answer = randomValue(this.levelProgress);
+        this.levelProgress.splice(this.levelProgress.indexOf(answer), 1);
+        return answer;
+    }
     getFakes(answer) {
+        let difficulty = Application.difficulty == GameDifficulty.VeryHard ? GameDifficulty.Hard : Application.difficulty;
         let arr = [];
         let answerPack = Application.hiragana.slice(0).flat();
-        while (arr.length < Application.difficulty - 1) {
+        while (arr.length < difficulty - 1) {
             if (answerPack.length == 0) {
                 answerPack = [...Application.hiragana[Application.currentLevel]];
             }
@@ -75,8 +122,6 @@ class GameManager {
         return arr;
     }
 }
-function setState(...args) {
-}
 function randomValue(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -85,6 +130,7 @@ function randomInt(min = 0, max = 1) {
 }
 export default function (context) {
     let game = new GameManager(context);
-    game.fillBoard();
+    Application.currentGame = game;
+    game.start();
 }
 //# sourceMappingURL=game.js.map

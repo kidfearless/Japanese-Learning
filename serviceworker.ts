@@ -7,6 +7,7 @@ serviceworker.addEventListener('activate', (event: ExtendableEvent) => event.wai
 serviceworker.addEventListener("fetch", (event: FetchEvent) => (event.respondWith(onFetch(event))));
 
 const CACHE_NAME = 'jap-cache-v4';
+const DEBUG = true;
 
 let cacheSet = new Set<string>();
 
@@ -31,11 +32,11 @@ async function onInstall(event: ExtendableEvent)
 	console.info('Service worker: Install');
 }
 
-function removeOldKeys(keys:string[])
+function removeOldKeys(keys: string[])
 {
 	for (let key of keys)
 	{
-		if(key !== CACHE_NAME)
+		if (key !== CACHE_NAME || DEBUG)
 		{
 			console.info(`Service worker: Deleting cache ${key}`);
 			caches.delete(key);
@@ -51,6 +52,12 @@ async function onActivate(event: ExtendableEvent)
 async function onFetch(event: FetchEvent)
 {
 	console.info(`Service worker: Fetching ${event.request.url}`);
+
+	if (DEBUG)
+	{
+		return fetch(event.request);
+	}
+
 	let cached = await caches.match(event.request);
 	if (cached)
 	{

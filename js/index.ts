@@ -1,6 +1,7 @@
 let serviceWorkerInstance = await navigator.serviceWorker.register("serviceworker.js");
 
 
+import { IGameManager } from "./game.js";
 import interfaces from "./interfaces.js";
 import { Hiragana } from './interfaces.js';
 interfaces();
@@ -31,9 +32,10 @@ class ApplicationManager
 	root: HTMLElement;
 	templateContext: HTMLElement;
 	difficulty: GameDifficulty = GameDifficulty.Medium;
-	currentLevel: number = 1;
+	currentLevel: number = 0;
 	maxLevel: number = 10;
 	hiragana: Hiragana[][] = [];
+	currentGame?: IGameManager;
 	constructor()
 	{
 		this.templateContext = document.body;
@@ -66,6 +68,8 @@ const Application = new ApplicationManager();
 // @ts-ignore
 globalThis.Application = Application;
 await Application.importData();
+Application.difficulty = GameDifficulty.VeryHard;
+// Application.difficulty = GameDifficulty.Medium;
 
 Application.setTemplate('game-template');
 

@@ -12,9 +12,10 @@ class ApplicationManager {
     root;
     templateContext;
     difficulty = GameDifficulty.Medium;
-    currentLevel = 1;
+    currentLevel = 0;
     maxLevel = 10;
     hiragana = [];
+    currentGame;
     constructor() {
         this.templateContext = document.body;
         this.root = document.getElementById('app');
@@ -37,6 +38,7 @@ class ApplicationManager {
 const Application = new ApplicationManager();
 globalThis.Application = Application;
 await Application.importData();
+Application.difficulty = GameDifficulty.VeryHard;
 Application.setTemplate('game-template');
 export function getTemplate(id, ctx = document.body) {
     Application.templateContext = ctx;

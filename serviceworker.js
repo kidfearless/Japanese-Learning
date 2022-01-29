@@ -4,6 +4,7 @@ serviceworker.addEventListener('install', (event) => event.waitUntil(onInstall(e
 serviceworker.addEventListener('activate', (event) => event.waitUntil(onActivate(event)));
 serviceworker.addEventListener("fetch", (event) => (event.respondWith(onFetch(event))));
 const CACHE_NAME = 'jap-cache-v4';
+const DEBUG = true;
 let cacheSet = new Set();
 cacheSet.add(`${origin}/data/hiragana.json`);
 cacheSet.add(`${origin}/css/index.css`);
@@ -25,7 +26,7 @@ async function onInstall(event) {
 }
 function removeOldKeys(keys) {
     for (let key of keys) {
-        if (key !== CACHE_NAME) {
+        if (key !== CACHE_NAME || DEBUG) {
             console.info(`Service worker: Deleting cache ${key}`);
             caches.delete(key);
         }
@@ -36,6 +37,9 @@ async function onActivate(event) {
 }
 async function onFetch(event) {
     console.info(`Service worker: Fetching ${event.request.url}`);
+    if (DEBUG) {
+        return fetch(event.request);
+    }
     let cached = await caches.match(event.request);
     if (cached) {
         console.info(`Service worker: Returning cached ${event.request.url}`);
